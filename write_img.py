@@ -20,8 +20,10 @@ class Kamio:
 
                 with open(self.img_path, "wb") as img_handle:
                     img_handle.write(self.current_image)
+                print(response.status_code)
             else:
                 with open(self.img_path, "rb") as img_handle:
+                    print(f"Failed to fetch from server with response {response.status_code}")
                     self.current_image = img_handle.read()
         except SSLError:
             print("Too many requests, sleeping for a bit")
