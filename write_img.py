@@ -14,6 +14,20 @@ class Kamio:
         self.url = url
         self.current_image: bytes | None = None
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     async def get_img(self) -> None:
         try:
             response: Response = await to_thread(rget, self.url)
