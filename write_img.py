@@ -5,6 +5,8 @@ from requests.exceptions import SSLError
 
 from time import sleep
 
+from asyncio import run, Task, to_thread, create_task
+from collections.abc import Coroutine
 
 class Kamio:
     def __init__(self, url: str, img_path: str) -> None:
@@ -12,9 +14,10 @@ class Kamio:
         self.url = url
         self.current_image: bytes | None = None
 
-    def get_img(self) -> None:
+    async def get_img(self) -> None:
         try:
-            response: Response = rget(self.url)
+            response: Response = await to_thread(rget, self.url)
+
             if response.status_code == 200:
                 self.current_image = response.content
 
