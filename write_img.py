@@ -1,7 +1,7 @@
 
 from requests import get as rget
 from requests import Response
-from requests.exceptions import SSLError
+from requests.exceptions import SSLError, ChunkedEncodingError
 
 from time import sleep
 
@@ -11,6 +11,10 @@ class Kamio:
         self.img_path: str = img_path
         self.url = url
         self.current_image: bytes | None = None
+
+    def recycle(self) -> None:
+        with open(self.img_path, 'rb') as img_handle:
+            self.current_image = img_handle.read()
 
     def get_img(self) -> None:
         try:
@@ -22,15 +26,17 @@ class Kamio:
                     img_handle.write(self.current_image)
                 print(response.status_code)
             else:
-                with open(self.img_path, "rb") as img_handle:
-                    print(f"Failed to fetch from server with response {response.status_code}")
-                    self.current_image = img_handle.read()
+                print(f"Failed to fetch from server with response {response.status_code}")
+                self.recycle()
+
         except SSLError:
             print("Too many requests, sleeping for a bit")
-            with open(self.img_path, "rb") as img_handle:
-                self.current_image = img_handle.read()
+            self.recycle()
             sleep(10)
 
+        except ChunkedEncodingError:
+            print("Image changed while downloading, retrying.")
+            sleep(1)
 
 
 
