@@ -14,15 +14,12 @@ class Kamio:
         self.url = url
         self.current_image: bytes | None = None
 
-<<<<<<< HEAD
 
-=======
     def recycle(self) -> None:
         with open(self.img_path, 'rb') as img_handle:
             self.current_image = img_handle.read()
 
     async def get_img(self) -> None:
->>>>>>> main
         try:
             response: Response = await to_thread(rget, self.url)
             if response.status_code == 200:
