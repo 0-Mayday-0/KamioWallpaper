@@ -12,7 +12,7 @@ async def perma_update(absolute_path: str) -> None:
     while True:
         get_img_task: Task[None] = create_task(kam_obj.get_img())
         await get_img_task
-        
+
         ctypes.windll.user32.SystemParametersInfoW(20, 0, absolute_path, 0)
         sleep(4)
 

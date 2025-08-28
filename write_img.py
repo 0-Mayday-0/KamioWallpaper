@@ -17,7 +17,6 @@ class Kamio:
     async def get_img(self) -> None:
         try:
             response: Response = await to_thread(rget, self.url)
-
             if response.status_code == 200:
                 self.current_image = response.content
 
