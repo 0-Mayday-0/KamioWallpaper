@@ -3,9 +3,7 @@ from requests import get as rget
 from requests import Response
 from requests.exceptions import SSLError, ChunkedEncodingError
 
-from time import sleep
-
-from asyncio import run, Task, to_thread, create_task
+from asyncio import run, Task, to_thread, create_task, sleep
 from collections.abc import Coroutine
 
 class Kamio:
@@ -35,11 +33,11 @@ class Kamio:
         except SSLError:
             print("Too many requests, sleeping for a bit")
             self.recycle()
-            sleep(10)
+            await sleep(10)
 
         except ChunkedEncodingError:
             print("Image changed while downloading, retrying.")
-            sleep(1)
+            await sleep(1)
 
 
 
