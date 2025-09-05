@@ -1,7 +1,7 @@
 
 from requests import get as rget
 from requests import Response
-from requests.exceptions import SSLError, ChunkedEncodingError
+from requests.exceptions import SSLError, ChunkedEncodingError, ConnectionError
 
 from asyncio import run, Task, to_thread, create_task, sleep
 from collections.abc import Coroutine
@@ -38,6 +38,10 @@ class Kamio:
         except ChunkedEncodingError:
             print("Image changed while downloading, retrying.")
             await sleep(1)
+
+        except ConnectionError:
+            print("There was a connection error, this most likely means there's no internet connection.")
+            await sleep(10)
 
 
 
