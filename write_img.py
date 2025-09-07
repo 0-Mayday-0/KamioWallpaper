@@ -43,6 +43,9 @@ class Kamio:
             print("There was a connection error, this most likely means there's no internet connection.")
             await sleep(10)
 
+        except TimeoutError:
+            print("The connection timed out, please connect to the internet")
+            await sleep(10)
 
 
 def main() -> None:
