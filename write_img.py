@@ -1,7 +1,7 @@
 
 from requests import get as rget
 from requests import Response
-from requests.exceptions import SSLError, ChunkedEncodingError, ConnectionError
+from requests.exceptions import SSLError, ChunkedEncodingError, ConnectionError, ReadTimeout
 
 from asyncio import run, Task, to_thread, create_task, sleep
 from collections.abc import Coroutine
@@ -45,6 +45,10 @@ class Kamio:
 
         except TimeoutError:
             print("The connection timed out, please connect to the internet")
+            await sleep(10)
+
+        except ReadTimeout:
+            print("Read time out, sleeping for a bit")
             await sleep(10)
 
 
